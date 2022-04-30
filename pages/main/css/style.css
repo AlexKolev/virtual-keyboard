@@ -1,0 +1,92 @@
+.conteiner {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.Head-page {
+  color: #242ad9;
+  font-size: 40px;
+  text-align: center;
+  padding-top: 20px;
+}
+
+.display-area {
+  display: block;
+  margin: 45px auto 20px;
+  width: 740px;
+  height: 200px;
+  resize: none;
+}
+
+.keyboard {
+  width: 800px;
+  margin: 20px auto;
+  height: 300px;
+  background-color: aqua;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 15px 15px;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -ms-flex-line-pack: start;
+      align-content: flex-start;
+}
+
+.key {
+  height: 45px;
+  color: darkgreen;
+  background-color: yellowgreen;
+  text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  border-radius: 5px;
+  border: 2px solid black;
+  font-size: 20px;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+  margin: 2px;
+}
+
+.key:hover {
+  background-color: #d7e4bc;
+}
+
+.key-standart {
+  width: 45px;
+}
+
+.key-wide1and5 {
+  width: 68px;
+}
+
+.key-wide2 {
+  width: 90px;
+}
+
+.key-wide5 {
+  width: 225px;
+}
+
+.key-narrow1and5 {
+  width: 25px;
+}
+
+.ru-en-switch-info {
+  font-size: 20px;
+  text-align: center;
+  padding-top: 20px;
+}
+/*# sourceMappingURL=style.css.map */
