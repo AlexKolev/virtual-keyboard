@@ -12,7 +12,7 @@
 
 .display-area {
 	display: block;
-	margin: 45px auto 20px;
+	margin: 20px auto;
 	width: 740px;
 	height: 200px;
 	resize: none;
@@ -21,7 +21,6 @@
 .keyboard {
 	width: 800px;
 	margin: 20px auto;
-	height: 300px;
 	background-color: aqua;
 	display: flex;
 	justify-content: space-between;
@@ -43,6 +42,8 @@
 	font-size: 20px;
 	flex: 0 0 auto;
 	margin: 2px;
+	transition: border-radius 0.3s, background-color 0.3s, color 0.3s;
+	cursor: pointer;
 
 	&:hover {
 		background-color: rgb(215, 228, 188);
@@ -58,11 +59,11 @@
 }
 
 .key-wide2 {
-	width: 90px;
+	width: 100px;
 }
 
 .key-wide5 {
-	width: 225px;
+	width: 250px;
 }
 
 .key-narrow1and5 {
@@ -73,4 +74,15 @@
 	font-size: 20px;
 	text-align: center;
 	padding-top: 20px;
+}
+
+.key-pres {
+	background-color: red;
+	border-radius: 20px;
+	color: white;
+
+	&:hover {
+		background-color: red;
+	}
+
 }
