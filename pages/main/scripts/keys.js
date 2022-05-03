@@ -6,7 +6,9 @@ export let KEYS = [
 		name_ru: 'ё',
 		with_type: 'key-narrow1and5',
 		shift_eng: '~',
-		code: 'Backquote'
+		code: 'Backquote',
+		changeableLanguage: true,
+		changeableShit: true,
 	},
 	{
 		name_eng: '1',
@@ -14,77 +16,89 @@ export let KEYS = [
 		with_type: 'key-standart',
 		shift: '!',
 		code: 'Digit1',
+		changeableShit: true,
 	},
 	{
 		name: '2',
 		with_type: 'key-standart',
 		shift_eng: '@',
 		shift_ru: '"',
-		code: 'Digit2'
+		code: 'Digit2',
+		changeableShit: true,
 	},
 	{
 		name: '3',
 		with_type: 'key-standart',
 		shift_eng: '#',
 		shift_ru: '№',
-		code: 'Digit3'
+		code: 'Digit3',
+		changeableShit: true,
 	},
 	{
 		name: '4',
 		with_type: 'key-standart',
 		shift_eng: '$',
 		shift_ru: ';',
-		code: 'Digit4'
+		code: 'Digit4',
+		changeableShit: true,
 	},
 	{
 		name: '5',
 		with_type: 'key-standart',
 		shift: '%',
-		code: 'Digit5'
+		code: 'Digit5',
+		changeableShit: true,
 	},
 	{
 		name: '6',
 		with_type: 'key-standart',
 		shift_eng: ':',
 		shift_ru: '^',
-		code: 'Digit6'
+		code: 'Digit6',
+		changeableShit: true,
 	},
 	{
 		name: '7',
 		with_type: 'key-standart',
 		shift_eng: '?',
 		shift_ru: '&',
-		code: 'Digit7'
+		code: 'Digit7',
+		changeableShit: true,
 	},
 	{
 		name: '8',
 		with_type: 'key-standart',
 		shift: '*',
-		code: 'Digit8'
+		code: 'Digit8',
+		changeableShit: true,
 	},
 	{
 		name: '9',
 		with_type: 'key-standart',
 		shift: '(',
-		code: 'Digit9'
+		code: 'Digit9',
+		changeableShit: true,
 	},
 	{
 		name: '0',
 		with_type: 'key-standart',
 		shift: ')',
-		code: 'Digit0'
+		code: 'Digit0',
+		changeableShit: true,
 	},
 	{
 		name: '-',
 		with_type: 'key-standart',
 		shift: '_',
-		code: 'Minus'
+		code: 'Minus',
+		changeableShit: true,
 	},
 	{
 		name: '=',
 		with_type: 'key-standart',
 		shift: '+',
-		code: 'Equal'
+		code: 'Equal',
+		changeableShit: true,
 	},
 	{
 		name: 'Backspace',
@@ -100,55 +114,73 @@ export let KEYS = [
 		name_eng: 'q',
 		name_ru: 'й',
 		with_type: 'key-standart',
-		code: 'KeyQ'
+		code: 'KeyQ',
+		changeableLanguage: true,
+		changeableShit: true,
 	},
 	{
 		name_eng: 'w',
 		name_ru: 'ц',
 		with_type: 'key-standart',
-		code: 'KeyW'
+		code: 'KeyW',
+		changeableLanguage: true,
+		changeableShit: true,
 	},
 	{
 		name_eng: 'e',
 		name_ru: 'у',
 		with_type: 'key-standart',
-		code: 'KeyE'
+		code: 'KeyE',
+		changeableLanguage: true,
+		changeableShit: true,
 	},
 	{
 		name_eng: 'r',
 		name_ru: 'к',
 		with_type: 'key-standart',
-		code: 'KeyR'
+		code: 'KeyR',
+		changeableLanguage: true,
+		changeableShit: true,
 	},
 	{
 		name_eng: 't',
 		name_ru: 'е',
 		with_type: 'key-standart',
-		code: 'KeyT'
+		code: 'KeyT',
+		changeableLanguage: true,
+		changeableShit: true,
 	},
 	{
 		name_eng: 'y',
 		name_ru: 'н',
 		with_type: 'key-standart',
-		code: 'KeyY'
+		code: 'KeyY',
+		changeableLanguage: true,
+		changeableShit: true,
 	},
 	{
 		name_eng: 'u',
 		name_ru: 'г',
 		with_type: 'key-standart',
-		code: 'KeyU'
+		code: 'KeyU',
+		changeableLanguage: true,
+		changeableShit: true,
 	},
 	{
 		name_eng: 'i',
 		name_ru: 'ш',
 		with_type: 'key-standart',
-		code: 'KeyI'
+		code: 'KeyI',
+		changeableLanguage: true,
+		changeableShit: true,
 	},
 	{
 		name_eng: 'o',
 		name_ru: 'щ',
 		with_type: 'key-standart',
-		code: 'KeyO'
+		code: 'KeyO',
+		changeableLanguage: true,
+		changeableShit: true,
 	},
 	{
 		name_eng: 'p',
@@ -156,28 +188,36 @@ export let KEYS = [
 		with_type: 'key-standart',
 		shift_eng: '?',
 		shift_ru: '&',
-		code: 'KeyP'
+		code: 'KeyP',
+		changeableLanguage: true,
+		changeableShit: true,
 	},
 	{
 		name_eng: '[',
 		name_ru: 'х',
 		with_type: 'key-standart',
 		shift_eng: '{',
-		code: 'BracketLeft'
+		code: 'BracketLeft',
+		changeableLanguage: true,
+		changeableShit: true,
 	},
 	{
 		name_eng: ']',
 		name_ru: 'ъ',
 		with_type: 'key-standart',
 		shift_eng: '}',
-		code: 'BracketRight'
+		code: 'BracketRight',
+		changeableLanguage: true,
+		changeableShit: true,
 	},
 	{
 		name: '\\',
 		with_type: 'key-standart',
 		shift_eng: '|',
 		shift_ru: '/',
-		code: 'Backslash'
+		code: 'Backslash',
+		changeableLanguage: true,
+		changeableShit: true,
 	},
 	{
 		name: 'Caps Lock',
@@ -188,69 +228,91 @@ export let KEYS = [
 		name_eng: 'a',
 		name_ru: 'ф',
 		with_type: 'key-standart',
-		code: 'KeyA'
+		code: 'KeyA',
+		changeableLanguage: true,
+		changeableShit: true,
 	},
 	{
 		name_eng: 's',
 		name_ru: 'ы',
 		with_type: 'key-standart',
-		code: 'KeyS'
+		code: 'KeyS',
+		changeableLanguage: true,
+		changeableShit: true,
 	},
 	{
 		name_eng: 'd',
 		name_ru: 'в',
 		with_type: 'key-standart',
-		code: 'KeyD'
+		code: 'KeyD',
+		changeableLanguage: true,
+		changeableShit: true,
 	},
 	{
 		name_eng: 'f',
 		name_ru: 'а',
 		with_type: 'key-standart',
-		code: 'KeyF'
+		code: 'KeyF',
+		changeableLanguage: true,
+		changeableShit: true,
 	},
 	{
 		name_eng: 'g',
 		name_ru: 'п',
 		with_type: 'key-standart',
-		code: 'KeyG'
+		code: 'KeyG',
+		changeableLanguage: true,
+		changeableShit: true,
 	},
 	{
 		name_eng: 'h',
 		name_ru: 'р',
 		with_type: 'key-standart',
-		code: 'KeyH'
+		code: 'KeyH',
+		changeableLanguage: true,
+		changeableShit: true,
 	},
 	{
 		name_eng: 'j',
 		name_ru: 'л',
 		with_type: 'key-standart',
-		code: 'KeyJ'
+		code: 'KeyJ',
+		changeableLanguage: true,
+		changeableShit: true,
 	},
 	{
 		name_eng: 'k',
 		name_ru: 'л',
 		with_type: 'key-standart',
-		code: 'KeyK'
+		code: 'KeyK',
+		changeableLanguage: true,
+		changeableShit: true,
 	},
 	{
 		name_eng: 'l',
 		name_ru: 'д',
 		with_type: 'key-standart',
-		code: 'KeyL'
+		code: 'KeyL',
+		changeableLanguage: true,
+		changeableShit: true,
 	},
 	{
 		name_eng: ';',
 		name_ru: 'ж',
 		with_type: 'key-standart',
 		shift_eng: ':',
-		code: 'Semicolon'
+		code: 'Semicolon',
+		changeableLanguage: true,
+		changeableShit: true,
 	},
 	{
 		name_eng: "'",
 		name_ru: 'э',
 		with_type: 'key-standart',
 		shift_eng: '"',
-		code: 'Quote'
+		code: 'Quote',
+		changeableLanguage: true,
+		changeableShit: true,
 	},
 	{
 		name: 'Enter',
@@ -266,57 +328,75 @@ export let KEYS = [
 		name_eng: 'z',
 		name_ru: 'я',
 		with_type: 'key-standart',
-		code: 'KeyZ'
+		code: 'KeyZ',
+		changeableLanguage: true,
+		changeableShit: true,
 	},
 	{
 		name_eng: 'x',
 		name_ru: 'ч',
 		with_type: 'key-standart',
-		code: 'KeyX'
+		code: 'KeyX',
+		changeableLanguage: true,
+		changeableShit: true,
 	},
 	{
 		name_eng: 'c',
 		name_ru: 'с',
 		with_type: 'key-standart',
-		code: 'KeyC'
+		code: 'KeyC',
+		changeableLanguage: true,
+		changeableShit: true,
 	},
 	{
 		name_eng: 'v',
 		name_ru: 'м',
 		with_type: 'key-standart',
-		code: 'KeyV'
+		code: 'KeyV',
+		changeableLanguage: true,
+		changeableShit: true,
 	},
 	{
 		name_eng: 'b',
 		name_ru: 'и',
 		with_type: 'key-standart',
-		code: 'KeyB'
+		code: 'KeyB',
+		changeableLanguage: true,
+		changeableShit: true,
 	},
 	{
 		name_eng: 'n',
 		name_ru: 'т',
 		with_type: 'key-standart',
-		code: 'KeyN'
+		code: 'KeyN',
+		changeableLanguage: true,
+		changeableShit: true,
 	},
 	{
 		name_eng: 'm',
 		name_ru: 'ь',
 		with_type: 'key-standart',
-		code: 'KeyM'
+		code: 'KeyM',
+		changeableLanguage: true,
+		changeableShit: true,
 	},
 	{
 		name_eng: ',',
 		name_ru: 'б',
 		with_type: 'key-standart',
 		shift_eng: '<',
-		code: 'Comma'
+		code: 'Comma',
+		changeableLanguage: true,
+		changeableShit: true,
 	},
 	{
 		name_eng: '.',
 		name_ru: 'ю',
 		with_type: 'key-standart',
 		shift_eng: '>',
-		code: 'Period'
+		code: 'Period',
+		changeableLanguage: true,
+		changeableShit: true,
 
 	},
 	{
@@ -325,7 +405,9 @@ export let KEYS = [
 		with_type: 'key-standart',
 		shift_eng: '?',
 		shift_ru: ',',
-		code: 'Slash'
+		code: 'Slash',
+		changeableLanguage: true,
+		changeableShit: true,
 	},
 	{
 		name: '&uarr;',
@@ -392,4 +474,4 @@ export let KEYS = [
 		with_type: 'key-standart',
 		code: 'ShiftRight'
 	},
-];
+]

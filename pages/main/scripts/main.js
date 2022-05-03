@@ -89,28 +89,34 @@ class Main {
 		element.classList.add('conteiner');
 		blockNode.append(element);
 		this.textArea = new TextArea(element);
-		this.keyboard = new Keyboard(element);
-		this.ruEnSwitchInfo = new RuEnSwitchInfo(element);
+		this.keyboard = new Keyboard(element, this.textArea);
+		this.ruEnSwitchInfo = new RuEnSwitchInfo(element, this.keyboard.language);
 		this.keyboard.ruEnSwitchInfo = this.ruEnSwitchInfo;
 	}
 }
 
 class TextArea {
 	constructor(blockNode) {
+		this.node = null;
 		this.renderTextArea(blockNode);
 	}
 	renderTextArea(blockNode) {
 		let textAreaHtml = `<textarea class="display-area" name="display-text" id="display-text" cols="30" rows="10" ></textarea>`;
 		blockNode.insertAdjacentHTML('beforeend', textAreaHtml);
+		this.node = blockNode.querySelector('textarea');
 	}
 }
 
 class Keyboard {
-	constructor(blockNode, main) {
+	constructor(blockNode, textArea) {
 		this.language = localStorage.getItem('language') ? localStorage.getItem('language') : 'ENG';
+		if (this.language === 'null') {
+			this.language = 'ENG';
+		}
 		this.keys = [];
 		this.blockNode = null;
 		this.ruEnSwitchInfo = null;
+		this.textArea = textArea;
 		this.renderKeyboard(blockNode, this.language);
 		blockNode.addEventListener('click', (e) => {
 			let target = e.target;
@@ -135,7 +141,17 @@ class Keyboard {
 		//listener on mousedown
 		blockNode.addEventListener('mousedown', (e) => {
 			let target = e.target;
+			//let textAreaStart = this.textArea.node.selectionStart;
 			this.highLightButton(target);
+			//отрисовка нажатой кнопки в textArea
+			this.writeKey(target);
+			// if (target.classList.contains('key')) {
+			// 	if (target.classList.contains('changeableLanguage') || target.classList.contains('changeableShit')) {
+			// 		console.log(this.textArea);
+			// 		this.textArea.node.value = this.textArea.node.value.substring(0, textAreaStart) + target.innerText + this.textArea.node.value.substring(textAreaStart);
+			// 		this.textArea.node.selectionStart = textAreaStart + 1;
+			// 	}
+			// }
 		});
 		//выключение эфекта нажатия listener on mouseup
 		blockNode.addEventListener('mouseup', (e) => {
@@ -183,6 +199,17 @@ class Keyboard {
 			}
 		}
 	}
+	//отрисовка нажатой кнопки в textArea
+	writeKey(key) {
+		let textAreaStart = this.textArea.node.selectionStart;
+		if (key.classList.contains('key')) {
+			if (key.classList.contains('changeableLanguage') || key.classList.contains('changeableShit')) {
+				//console.log(this.textArea);
+				this.textArea.node.value = this.textArea.node.value.substring(0, textAreaStart) + key.innerText + this.textArea.node.value.substring(textAreaStart);
+				this.textArea.node.selectionStart = textAreaStart + 1;
+			}
+		}
+	}
 	//переключение клавиатуры
 	changeLanguage(keyboard, language, render) {
 		if (!render) {
@@ -197,6 +224,7 @@ class Keyboard {
 				this.language = 'ENG';
 				this.ruEnSwitchInfo.changeText('ENG');
 			}
+
 		}
 	}
 }
@@ -211,11 +239,15 @@ class Key {
 		this.shift_eng = key.shift_eng;
 		this.shift_ru = key.shift_ru;
 		this.code = key.code;
+		this.changeableLanguage = key.changeableLanguage;
+		this.changeableShit = key.changeableShit;
 
+		this.node = null;
 		this.renderKey(blockNode, language);
 	}
 	renderKey(blockNode, language) {
 		let sign = '';
+		let textAreaHtml = '';
 		if (language === 'ENG') {
 			sign = this.name_eng;
 		} else if (language === 'RU') {
@@ -225,24 +257,39 @@ class Key {
 		if (sign === undefined) {
 			sign = this.name;
 		}
-		let textAreaHtml = `<div class="key ${this.with_type}" data-code="${this.code}">${sign}</div>`;
+
+		if (this.changeableLanguage) {
+			textAreaHtml = `<div class="key ${this.with_type} changeableLanguage" data-code="${this.code}">${sign}</div>`;
+		} else if (this.changeableShit) {
+			textAreaHtml = `<div class="key ${this.with_type} changeableShit" data-code="${this.code}">${sign}</div>`;
+		} else {
+			textAreaHtml = `<div class="key ${this.with_type} " data-code="${this.code}">${sign}</div>`;
+		}
+
 		blockNode.insertAdjacentHTML('beforeend', textAreaHtml);
+		this.node = blockNode.querySelector(`.key[data-code="${this.code}"]`);
 	}
 }
 
 class RuEnSwitchInfo {
-	constructor(blockNode) {
+	constructor(blockNode, language) {
 		this.htmlText = null;
-		this.renderRuEnSwitchInfo(blockNode);
+		this.renderRuEnSwitchInfo(blockNode, language);
 	}
-	renderRuEnSwitchInfo(blockNode) {
-		let textAreaHtml = `<div class="ru-en-switch-info">
-								<p>Клавиатура создана в операционной системе Windiws</p>
-								<p>Для переключения клавиатуры используйте клавишу ENG на клавиатуре</p>
-								<p>Или комбинацию: левыe Crl + Alt</p>
-							</div>`;
-		blockNode.insertAdjacentHTML('beforeend', textAreaHtml);
-		this.htmlText = blockNode.querySelector('.ru-en-switch-info');
+	renderRuEnSwitchInfo(blockNode, language) {
+		// let textAreaHtml = `<div class="ru-en-switch-info">
+		// 						<p>Клавиатура создана в операционной системе Windiws</p>
+		// 						<p>Для переключения клавиатуры используйте клавишу ENG на клавиатуре</p>
+		// 						<p>Или комбинацию: левыe Crl + Alt</p>
+		// 					</div>`;
+		// blockNode.insertAdjacentHTML('beforeend', textAreaHtml);
+		let element = document.createElement("div")
+		element.classList.add('ru-en-switch-info');
+		blockNode.append(element);
+		this.htmlText = element;
+		this.changeText(language);
+
+		//this.htmlText = blockNode.querySelector('.ru-en-switch-info');
 	}
 	changeText(language) {
 		this.htmlText.innerHTML = '';
