@@ -22,6 +22,7 @@ class Page {
 			//console.log(key);
 			if (key) {
 				this.main.keyboard.highLightButton(key);
+				this.main.keyboard.writeKey(key);
 				if (e.code === 'ControlLeft') {
 					this.keyDown = 'ControlLeft';
 				} else if (this.keyDown === 'ControlLeft' && e.code === 'AltLeft') {
@@ -145,6 +146,12 @@ class Keyboard {
 			this.highLightButton(target);
 			//отрисовка нажатой кнопки в textArea
 			this.writeKey(target);
+
+			//управление регистром
+			if (target.dataset.code === 'ShiftRight' || target.dataset.code === 'ShiftLeft' /*|| target.dataset.code === 'CapsLock'*/) {
+				this.renderKeyboard(this.blockNode, null, 'UP')
+			}
+
 			// if (target.classList.contains('key')) {
 			// 	if (target.classList.contains('changeableLanguage') || target.classList.contains('changeableShit')) {
 			// 		console.log(this.textArea);
@@ -157,6 +164,10 @@ class Keyboard {
 		blockNode.addEventListener('mouseup', (e) => {
 			let target = e.target;
 			this.highLightButtonOff(target);
+			//управление регистром
+			if (target.dataset.code === 'ShiftRight' || target.dataset.code === 'ShiftLeft' /*|| target.dataset.code === 'CapsLock'*/) {
+				this.renderKeyboard(this.blockNode, null, 'DOWN')
+			}
 		});
 		//выключение эфекта нажатия listener on mouseout, если нажали и переместили курср с кнопки
 		blockNode.addEventListener('mouseout', (e) => {
@@ -164,28 +175,80 @@ class Keyboard {
 			this.highLightButtonOff(target);
 		});
 	}
-	renderKeyboard(blockNode, language) {
+	renderKeyboard(blockNode, language, shift) {
 		if (this.blockNode === null) {
 			let element = document.createElement("div")
 			element.classList.add('keyboard');
 			blockNode.append(element);
 			this.blockNode = element;
+			for (let i = 0; i < KEYS.length; i++) {
+				const key = new Key(KEYS[i], this.blockNode, language);
+				this.keys.push(key);
+			}
 		} else {
-			this.blockNode.innerHTML = '';
-			this.keys = [];
-		}
-
-		for (let i = 0; i < KEYS.length; i++) {
-			const key = new Key(KEYS[i], this.blockNode, language);
-			this.keys.push(key);
+			//this.blockNode.innerHTML = '';
+			//this.keys = [];
+			//смена языка
+			if (language) {
+				for (let i = 0; i < this.keys.length; i++) {
+					if (this.keys[i].changeableLanguage) {
+						let sign = '';
+						if (language === 'ENG') {
+							sign = this.keys[i].name_eng;
+						} else if (language === 'RU') {
+							sign = this.keys[i].name_ru;
+						}
+						if (sign === undefined) {
+							sign = this.keys[i].name;
+						}
+						this.keys[i].node.innerText = sign;
+					}
+				}
+			} else {
+				if (shift === 'UP') {
+					for (let i = 0; i < this.keys.length; i++) {
+						if (this.keys[i].changeableShit) {
+							let sign = '';
+							if (this.keys[i].shift) {
+								sign = this.keys[i].shift;
+							} else if (this.language === 'ENG') {
+								sign = this.keys[i].shift_eng;
+							} else if (this.language === 'RU') {
+								sign = this.keys[i].shift_ru;
+							}
+							if (sign === undefined) {
+								sign = this.keys[i].node.innerText.toUpperCase();
+							}
+							this.keys[i].node.innerText = sign;
+						}
+					}
+				} else if (shift === 'DOWN') {
+					for (let i = 0; i < this.keys.length; i++) {
+						if (this.keys[i].changeableShit) {
+							let sign = '';
+							if (this.keys[i].name) {
+								sign = this.keys[i].name;
+							} else if (this.language === 'ENG') {
+								sign = this.keys[i].name_eng;
+							} else if (this.language === 'RU') {
+								sign = this.keys[i].name_ru;
+							}
+							if (sign === undefined) {
+								sign = this.keys[i].node.innerText.toLowerCase();
+							}
+							this.keys[i].node.innerText = sign;
+						}
+					}
+				}
+			}
 		}
 	}
 	//включение эфекта нажатия
 	highLightButton(key) {
 		if (key.classList.contains('key')) {
 			//console.log('mousedown ' + target.innerText);
-			if (key.innerText === 'Caps Lock') {
-				key.classList.toggle('key-pres');;
+			if (key.dataset.code === 'CapsLock') {
+				key.classList.toggle('key-pres');
 			} else {
 				key.classList.add('key-pres');
 			}
@@ -194,7 +257,7 @@ class Keyboard {
 	//выключение эфекта нажатия
 	highLightButtonOff(key) {
 		if (key.classList.contains('key')) {
-			if (key.innerText != 'Caps Lock') {
+			if (key.dataset.code != 'CapsLock') {
 				key.classList.remove('key-pres');
 			}
 		}
@@ -204,9 +267,28 @@ class Keyboard {
 		let textAreaStart = this.textArea.node.selectionStart;
 		if (key.classList.contains('key')) {
 			if (key.classList.contains('changeableLanguage') || key.classList.contains('changeableShit')) {
-				//console.log(this.textArea);
 				this.textArea.node.value = this.textArea.node.value.substring(0, textAreaStart) + key.innerText + this.textArea.node.value.substring(textAreaStart);
-				this.textArea.node.selectionStart = textAreaStart + 1;
+				this.textArea.node.selectionStart = this.textArea.node.selectionEnd = textAreaStart + 1;
+			} else if (key.dataset.code.startsWith('Arrow')) {
+				this.textArea.node.value = this.textArea.node.value.substring(0, textAreaStart) + key.innerText + this.textArea.node.value.substring(textAreaStart);
+				this.textArea.node.selectionStart = this.textArea.node.selectionEnd = textAreaStart + 1;
+			} else if (key.dataset.code === 'Backspace') {
+				// console.log(textAreaStart);
+				// console.log(this.textArea.node.selectionStart);
+				this.textArea.node.value = this.textArea.node.value.substring(0, textAreaStart - 1) + this.textArea.node.value.substring(textAreaStart);
+				this.textArea.node.selectionStart = this.textArea.node.selectionEnd = textAreaStart - 1;
+			} else if (key.dataset.code === 'Delete') {
+				this.textArea.node.value = this.textArea.node.value.substring(0, textAreaStart) + this.textArea.node.value.substring(textAreaStart + 1);
+				this.textArea.node.selectionStart = this.textArea.node.selectionEnd = textAreaStart;
+			} else if (key.dataset.code === 'Tab') {
+				this.textArea.node.value = this.textArea.node.value.substring(0, textAreaStart) + "\t" + this.textArea.node.value.substring(textAreaStart);
+				this.textArea.node.selectionStart = this.textArea.node.selectionEnd = textAreaStart + 1;
+			} else if (key.dataset.code === 'Enter') {
+				this.textArea.node.value = this.textArea.node.value.substring(0, textAreaStart) + "\n" + this.textArea.node.value.substring(textAreaStart);
+				this.textArea.node.selectionStart = this.textArea.node.selectionEnd = textAreaStart + 1;
+			} else if (key.dataset.code === 'Space') {
+				this.textArea.node.value = this.textArea.node.value.substring(0, textAreaStart) + " " + this.textArea.node.value.substring(textAreaStart);
+				this.textArea.node.selectionStart = this.textArea.node.selectionEnd = textAreaStart + 1;
 			}
 		}
 	}
@@ -224,7 +306,6 @@ class Keyboard {
 				this.language = 'ENG';
 				this.ruEnSwitchInfo.changeText('ENG');
 			}
-
 		}
 	}
 }

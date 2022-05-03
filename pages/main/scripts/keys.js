@@ -433,6 +433,7 @@ export let KEYS = [
 		name_eng: 'ENG',
 		name_ru: 'RU',
 		with_type: 'key-standart',
+		changeableLanguage: true,
 	},
 	{
 		name: 'Alt',
