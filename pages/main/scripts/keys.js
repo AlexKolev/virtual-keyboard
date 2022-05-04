@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 export let KEYS = [
 	{
@@ -306,7 +306,7 @@ export let KEYS = [
 		changeableShit: true,
 	},
 	{
-		name_eng: "'",
+		name_eng: '\'',
 		name_ru: 'э',
 		with_type: 'key-standart',
 		shift_eng: '"',
@@ -475,4 +475,4 @@ export let KEYS = [
 		with_type: 'key-standart',
 		code: 'ShiftRight'
 	},
-]
+];
