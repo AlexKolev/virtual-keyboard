@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 import { KEYS } from './keys.js';
 
 class Page {
@@ -44,10 +44,9 @@ class Page {
 					this.main.keyboard.renderKeyboard(this.main.keyboard.blockNode, null, null, this.main.keyboard.capsLockOn);
 				}
 			}
-		})
+		});
 		// listener для отжатия кнопоки
 		body.addEventListener('keyup', (e) => {
-			//	console.log(e);
 			let key = document.querySelector(`.key[data-code="${e.code}"]`);
 			if (key) {
 				this.main.keyboard.highLightButtonOff(key);
@@ -64,7 +63,7 @@ class Page {
 				}
 
 			}
-		})
+		});
 	}
 }
 
@@ -96,7 +95,7 @@ class Main {
 	 * @param {*} blockNode нода в которую вложен блок main
 	 */
 	renderMain(blockNode) {
-		let element = document.createElement("main")
+		let element = document.createElement('main');
 		element.classList.add('conteiner');
 		blockNode.append(element);
 		this.textArea = new TextArea(element);
@@ -116,7 +115,7 @@ class TextArea {
 	 * @param {*} blockNode нода в которую вложен блок textarea
 	 */
 	renderTextArea(blockNode) {
-		let textAreaHtml = `<textarea class="display-area" name="display-text" id="display-text" cols="30" rows="10" ></textarea>`;
+		let textAreaHtml = '<textarea class="display-area" name="display-text" id="display-text" cols="30" rows="10" ></textarea>';
 		blockNode.insertAdjacentHTML('beforeend', textAreaHtml);
 		this.node = blockNode.querySelector('textarea');
 	}
@@ -166,8 +165,8 @@ class Keyboard {
 			this.highLightButtonOff(target);
 			//управление регистром
 			if (target.dataset.code === 'ShiftRight' || target.dataset.code === 'ShiftLeft' /*|| target.dataset.code === 'CapsLock'*/) {
-				this.renderKeyboard(this.blockNode, null, 'DOWN', this.capsLockOn)
-			};
+				this.renderKeyboard(this.blockNode, null, 'DOWN', this.capsLockOn);
+			}
 		});
 		//выключение эфекта нажатия listener on mouseout, если нажали и переместили курср с кнопки
 		blockNode.addEventListener('mouseout', (e) => {
@@ -184,7 +183,7 @@ class Keyboard {
 	 */
 	renderKeyboard(blockNode, language, shift, capsOn) {
 		if (this.blockNode === null) {
-			let element = document.createElement("div")
+			let element = document.createElement('div');
 			element.classList.add('keyboard');
 			blockNode.append(element);
 			this.blockNode = element;
@@ -321,20 +320,17 @@ class Keyboard {
 				this.textArea.node.value = this.textArea.node.value.substring(0, textAreaStart - 1) + this.textArea.node.value.substring(textAreaStart);
 				this.textArea.node.selectionStart = textAreaStart - 1;
 				this.textArea.node.selectionEnd = textAreaStart - 1;
-
-				console.log('B = ' + this.textArea.node.selectionStart);
-				console.log('B = ' + this.textArea.node);
 			} else if (key.dataset.code === 'Delete') {
 				this.textArea.node.value = this.textArea.node.value.substring(0, textAreaStart) + this.textArea.node.value.substring(textAreaStart + 1);
 				this.textArea.node.selectionStart = this.textArea.node.selectionEnd = textAreaStart;
 			} else if (key.dataset.code === 'Tab') {
-				this.textArea.node.value = this.textArea.node.value.substring(0, textAreaStart) + "\t" + this.textArea.node.value.substring(textAreaStart);
+				this.textArea.node.value = this.textArea.node.value.substring(0, textAreaStart) + '\t' + this.textArea.node.value.substring(textAreaStart);
 				this.textArea.node.selectionStart = this.textArea.node.selectionEnd = textAreaStart + 1;
 			} else if (key.dataset.code === 'Enter') {
-				this.textArea.node.value = this.textArea.node.value.substring(0, textAreaStart) + "\n" + this.textArea.node.value.substring(textAreaStart);
+				this.textArea.node.value = this.textArea.node.value.substring(0, textAreaStart) + '\n' + this.textArea.node.value.substring(textAreaStart);
 				this.textArea.node.selectionStart = this.textArea.node.selectionEnd = textAreaStart + 1;
 			} else if (key.dataset.code === 'Space') {
-				this.textArea.node.value = this.textArea.node.value.substring(0, textAreaStart) + " " + this.textArea.node.value.substring(textAreaStart);
+				this.textArea.node.value = this.textArea.node.value.substring(0, textAreaStart) + ' ' + this.textArea.node.value.substring(textAreaStart);
 				this.textArea.node.selectionStart = this.textArea.node.selectionEnd = textAreaStart + 1;
 			}
 		}
@@ -420,7 +416,7 @@ class RuEnSwitchInfo {
 	 * @param {*} language 
 	 */
 	renderRuEnSwitchInfo(blockNode, language) {
-		let element = document.createElement("div")
+		let element = document.createElement('div');
 		element.classList.add('ru-en-switch-info');
 		blockNode.append(element);
 		this.htmlText = element;
@@ -439,4 +435,4 @@ class RuEnSwitchInfo {
 	}
 }
 
-const page = new Page();
+new Page();
