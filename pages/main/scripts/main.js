@@ -29,21 +29,18 @@ class Page {
 					//переключение клавиатуры
 					this.main.keyboard.changeLanguage(document.body.main, this.main.keyboard.language, this.notRender);
 					this.notRender = 1;
-					// if (this.main.keyboard.language === 'ENG') {
-					// 	this.main.keyboard.renderKeyboard(document.body.main, 'RU');
-					// 	localStorage.setItem('language', 'RU');
-					// 	this.main.keyboard.language = 'RU';
-					// 	this.main.ruEnSwitchInfo.changeText('RU');
-					// } else if (this.main.keyboard.language === 'RU') {
-					// 	this.main.keyboard.renderKeyboard(document.body.main, 'ENG');
-					// 	localStorage.setItem('language', 'ENG');
-					// 	this.main.keyboard.language = 'ENG';
-					// 	this.main.ruEnSwitchInfo.changeText('ENG');
-					// }
-					//end переключение клавиатуры
-					//console.log(e.code);
 					this.main.keyboard.highLightButton(document.querySelector(`.key[data-code="${e.code}"]`));
 					this.main.keyboard.highLightButton(document.querySelector(`.key[data-code="${this.keyDown}"]`));
+				} else if (key.dataset.code === 'ShiftRight' || key.dataset.code === 'ShiftLeft') {
+					//управление регистром
+					this.main.keyboard.renderKeyboard(this.main.keyboard.blockNode, null, 'UP', this.main.keyboard.capsLockOn);
+				} else if (key.dataset.code === 'CapsLock') {
+					if (this.main.keyboard.capsLockOn === null) {
+						this.main.keyboard.capsLockOn = true;
+					} else {
+						this.main.keyboard.capsLockOn = null;
+					}
+					this.main.keyboard.renderKeyboard(this.main.keyboard.blockNode, null, null, this.main.keyboard.capsLockOn);
 				}
 			}
 		})
@@ -59,6 +56,10 @@ class Page {
 				}
 				if (e.code === 'AltLeft') {
 					this.notRender = null;
+				}
+				//управление регистром
+				if (key.dataset.code === 'ShiftRight' || key.dataset.code === 'ShiftLeft') {
+					this.main.keyboard.renderKeyboard(this.main.keyboard.blockNode, null, 'DOWN', this.main.keyboard.capsLockOn);
 				}
 
 			}
@@ -118,47 +119,33 @@ class Keyboard {
 		this.blockNode = null;
 		this.ruEnSwitchInfo = null;
 		this.textArea = textArea;
+		this.capsLockOn = null;
+
 		this.renderKeyboard(blockNode, this.language);
 		blockNode.addEventListener('click', (e) => {
 			let target = e.target;
 			if (target.classList.contains('key')) {
 				this.changeLanguage(blockNode, target.innerText);
-				//console.log(target.innerText);
-				//переключение клавиатуры
-				// if (target.innerText === 'ENG') {
-				// 	this.renderKeyboard(blockNode, 'RU');
-				// 	localStorage.setItem('language', 'RU');
-				// 	this.language = 'RU';
-				// 	this.main.ruEnSwitchInfo.changeText('RU');
-				// } else if (target.innerText === 'RU') {
-				// 	this.renderKeyboard(blockNode, 'ENG');
-				// 	localStorage.setItem('language', 'ENG');
-				// 	this.language = 'ENG';
-				// 	this.main.ruEnSwitchInfo.changeText('RU');
-				// }
-				//end переключение клавиатуры
 			}
 		});
 		//listener on mousedown
 		blockNode.addEventListener('mousedown', (e) => {
 			let target = e.target;
-			//let textAreaStart = this.textArea.node.selectionStart;
 			this.highLightButton(target);
 			//отрисовка нажатой кнопки в textArea
 			this.writeKey(target);
-
 			//управление регистром
-			if (target.dataset.code === 'ShiftRight' || target.dataset.code === 'ShiftLeft' /*|| target.dataset.code === 'CapsLock'*/) {
-				this.renderKeyboard(this.blockNode, null, 'UP')
+			if (target.dataset.code === 'ShiftRight' || target.dataset.code === 'ShiftLeft') {
+				this.renderKeyboard(this.blockNode, null, 'UP', this.capsLockOn);
 			}
-
-			// if (target.classList.contains('key')) {
-			// 	if (target.classList.contains('changeableLanguage') || target.classList.contains('changeableShit')) {
-			// 		console.log(this.textArea);
-			// 		this.textArea.node.value = this.textArea.node.value.substring(0, textAreaStart) + target.innerText + this.textArea.node.value.substring(textAreaStart);
-			// 		this.textArea.node.selectionStart = textAreaStart + 1;
-			// 	}
-			// }
+			if (target.dataset.code === 'CapsLock') {
+				if (this.capsLockOn === null) {
+					this.capsLockOn = true;
+				} else {
+					this.capsLockOn = null;
+				}
+				this.renderKeyboard(this.blockNode, null, null, this.capsLockOn);
+			}
 		});
 		//выключение эфекта нажатия listener on mouseup
 		blockNode.addEventListener('mouseup', (e) => {
@@ -166,8 +153,8 @@ class Keyboard {
 			this.highLightButtonOff(target);
 			//управление регистром
 			if (target.dataset.code === 'ShiftRight' || target.dataset.code === 'ShiftLeft' /*|| target.dataset.code === 'CapsLock'*/) {
-				this.renderKeyboard(this.blockNode, null, 'DOWN')
-			}
+				this.renderKeyboard(this.blockNode, null, 'DOWN', this.capsLockOn)
+			};
 		});
 		//выключение эфекта нажатия listener on mouseout, если нажали и переместили курср с кнопки
 		blockNode.addEventListener('mouseout', (e) => {
@@ -175,7 +162,7 @@ class Keyboard {
 			this.highLightButtonOff(target);
 		});
 	}
-	renderKeyboard(blockNode, language, shift) {
+	renderKeyboard(blockNode, language, shift, capsOn) {
 		if (this.blockNode === null) {
 			let element = document.createElement("div")
 			element.classList.add('keyboard');
@@ -186,8 +173,6 @@ class Keyboard {
 				this.keys.push(key);
 			}
 		} else {
-			//this.blockNode.innerHTML = '';
-			//this.keys = [];
 			//смена языка
 			if (language) {
 				for (let i = 0; i < this.keys.length; i++) {
@@ -204,10 +189,12 @@ class Keyboard {
 						this.keys[i].node.innerText = sign;
 					}
 				}
+				//верхний регистр
 			} else {
+				//по Shift
 				if (shift === 'UP') {
 					for (let i = 0; i < this.keys.length; i++) {
-						if (this.keys[i].changeableShit) {
+						if (this.keys[i].changeableShit && this.keys[i].code) {
 							let sign = '';
 							if (this.keys[i].shift) {
 								sign = this.keys[i].shift;
@@ -217,26 +204,55 @@ class Keyboard {
 								sign = this.keys[i].shift_ru;
 							}
 							if (sign === undefined) {
-								sign = this.keys[i].node.innerText.toUpperCase();
+								if (capsOn) {
+									sign = this.keys[i].node.innerText.toLowerCase();
+								} else {
+									sign = this.keys[i].node.innerText.toUpperCase();
+								}
+
 							}
 							this.keys[i].node.innerText = sign;
 						}
 					}
 				} else if (shift === 'DOWN') {
 					for (let i = 0; i < this.keys.length; i++) {
-						if (this.keys[i].changeableShit) {
+						if (this.keys[i].changeableShit && this.keys[i].code) {
 							let sign = '';
 							if (this.keys[i].name) {
 								sign = this.keys[i].name;
 							} else if (this.language === 'ENG') {
 								sign = this.keys[i].name_eng;
+								if (capsOn) {
+									sign = sign.toUpperCase();
+								} else {
+									sign = sign.toLowerCase();
+								}
 							} else if (this.language === 'RU') {
 								sign = this.keys[i].name_ru;
+								if (capsOn) {
+									sign = sign.toUpperCase();
+								} else {
+									sign = sign.toLowerCase();
+								}
 							}
 							if (sign === undefined) {
-								sign = this.keys[i].node.innerText.toLowerCase();
+								if (capsOn) {
+									sign = this.keys[i].node.innerText.toUpperCase();
+								} else {
+									sign = this.keys[i].node.innerText.toLowerCase();
+								}
 							}
 							this.keys[i].node.innerText = sign;
+						}
+					}
+				} else if (shift === null) {
+					for (let i = 0; i < this.keys.length; i++) {
+						if (this.keys[i].changeableLanguage && this.keys[i].code) {
+							if (capsOn) {
+								this.keys[i].node.innerText = this.keys[i].node.innerText.toUpperCase();
+							} else {
+								this.keys[i].node.innerText = this.keys[i].node.innerText.toLowerCase();
+							}
 						}
 					}
 				}
@@ -358,19 +374,11 @@ class RuEnSwitchInfo {
 		this.renderRuEnSwitchInfo(blockNode, language);
 	}
 	renderRuEnSwitchInfo(blockNode, language) {
-		// let textAreaHtml = `<div class="ru-en-switch-info">
-		// 						<p>Клавиатура создана в операционной системе Windiws</p>
-		// 						<p>Для переключения клавиатуры используйте клавишу ENG на клавиатуре</p>
-		// 						<p>Или комбинацию: левыe Crl + Alt</p>
-		// 					</div>`;
-		// blockNode.insertAdjacentHTML('beforeend', textAreaHtml);
 		let element = document.createElement("div")
 		element.classList.add('ru-en-switch-info');
 		blockNode.append(element);
 		this.htmlText = element;
 		this.changeText(language);
-
-		//this.htmlText = blockNode.querySelector('.ru-en-switch-info');
 	}
 	changeText(language) {
 		this.htmlText.innerHTML = '';
@@ -382,8 +390,3 @@ class RuEnSwitchInfo {
 }
 
 const page = new Page();
-
-// page.main.keyboard.renderKeyboard(page.main.keyboard.blockNode, 'RU');
-
-//localStorage.setItem('language', 'ENG');
-// let language = localStorage.getItem('language')
