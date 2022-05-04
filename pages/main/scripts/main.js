@@ -9,6 +9,9 @@ class Page {
 		this.keyDown = null;
 		this.notRender = null;
 	}
+	/**
+	 * Создание секции body
+	 */
 	renderPage() {
 		let body = document.querySelector('body');
 
@@ -16,10 +19,8 @@ class Page {
 		this.main = new Main(body);
 		// listener для нажатия кнопоки
 		body.addEventListener('keydown', (e) => {
-			//console.log(e);
 			e.preventDefault();
 			let key = document.querySelector(`.key[data-code="${e.code}"]`);
-			//console.log(key);
 			if (key) {
 				this.main.keyboard.highLightButton(key);
 				this.main.keyboard.writeKey(key);
@@ -71,6 +72,10 @@ class Header {
 	constructor(blockNode) {
 		this.renderHeader(blockNode);
 	}
+	/**
+	 * Создание секции header
+	 * @param {*} blockNode нода в которую вложен блок header
+	 */
 	renderHeader(blockNode) {
 		let headerHtml = `<header class="conteiner">
 							<h1 class='Head-page'>Virtual Keyboard</h1>
@@ -86,6 +91,10 @@ class Main {
 		this.ruEnSwitchInfo = null;
 		this.renderMain(blockNode);
 	}
+	/**
+	 * Создание секции main
+	 * @param {*} blockNode нода в которую вложен блок main
+	 */
 	renderMain(blockNode) {
 		let element = document.createElement("main")
 		element.classList.add('conteiner');
@@ -102,6 +111,10 @@ class TextArea {
 		this.node = null;
 		this.renderTextArea(blockNode);
 	}
+	/**
+	 * Создание секции main textarea
+	 * @param {*} blockNode нода в которую вложен блок textarea
+	 */
 	renderTextArea(blockNode) {
 		let textAreaHtml = `<textarea class="display-area" name="display-text" id="display-text" cols="30" rows="10" ></textarea>`;
 		blockNode.insertAdjacentHTML('beforeend', textAreaHtml);
@@ -162,6 +175,13 @@ class Keyboard {
 			this.highLightButtonOff(target);
 		});
 	}
+	/**
+	 * Отрисовка клавиатуры div с классом keyboard
+	 * @param {*} blockNode нода в которую вложен блок div с классом keyboard
+	 * @param {*} language язык клавиатуры (RU или ENG)
+	 * @param {*} shift нажаниие или отжание Shift (UP или DOWN)
+	 * @param {*} capsOn признак включени CapsLock (true или null)
+	 */
 	renderKeyboard(blockNode, language, shift, capsOn) {
 		if (this.blockNode === null) {
 			let element = document.createElement("div")
@@ -259,10 +279,12 @@ class Keyboard {
 			}
 		}
 	}
-	//включение эфекта нажатия
+	/**
+	 * включение эфекта нажатия
+	 * @param {*} key нажатая кнопка
+	 */
 	highLightButton(key) {
 		if (key.classList.contains('key')) {
-			//console.log('mousedown ' + target.innerText);
 			if (key.dataset.code === 'CapsLock') {
 				key.classList.toggle('key-pres');
 			} else {
@@ -270,7 +292,10 @@ class Keyboard {
 			}
 		}
 	}
-	//выключение эфекта нажатия
+	/**
+	 * выключение эфекта нажатия
+	 * @param {*} key отжататя кнопка
+	 */
 	highLightButtonOff(key) {
 		if (key.classList.contains('key')) {
 			if (key.dataset.code != 'CapsLock') {
@@ -278,8 +303,12 @@ class Keyboard {
 			}
 		}
 	}
-	//отрисовка нажатой кнопки в textArea
+	/**
+	 * отрисовка нажатой кнопки в textArea
+	 * @param {*} key нажатая кнопка
+	 */
 	writeKey(key) {
+		this.textArea.node.focus();
 		let textAreaStart = this.textArea.node.selectionStart;
 		if (key.classList.contains('key')) {
 			if (key.classList.contains('changeableLanguage') || key.classList.contains('changeableShit')) {
@@ -288,11 +317,13 @@ class Keyboard {
 			} else if (key.dataset.code.startsWith('Arrow')) {
 				this.textArea.node.value = this.textArea.node.value.substring(0, textAreaStart) + key.innerText + this.textArea.node.value.substring(textAreaStart);
 				this.textArea.node.selectionStart = this.textArea.node.selectionEnd = textAreaStart + 1;
-			} else if (key.dataset.code === 'Backspace') {
-				// console.log(textAreaStart);
-				// console.log(this.textArea.node.selectionStart);
+			} else if (key.dataset.code === 'Backspace' && textAreaStart > 0) {
 				this.textArea.node.value = this.textArea.node.value.substring(0, textAreaStart - 1) + this.textArea.node.value.substring(textAreaStart);
-				this.textArea.node.selectionStart = this.textArea.node.selectionEnd = textAreaStart - 1;
+				this.textArea.node.selectionStart = textAreaStart - 1;
+				this.textArea.node.selectionEnd = textAreaStart - 1;
+
+				console.log('B = ' + this.textArea.node.selectionStart);
+				console.log('B = ' + this.textArea.node);
 			} else if (key.dataset.code === 'Delete') {
 				this.textArea.node.value = this.textArea.node.value.substring(0, textAreaStart) + this.textArea.node.value.substring(textAreaStart + 1);
 				this.textArea.node.selectionStart = this.textArea.node.selectionEnd = textAreaStart;
@@ -308,7 +339,12 @@ class Keyboard {
 			}
 		}
 	}
-	//переключение клавиатуры
+	/**
+	 * переключение клавиатуры
+	 * @param {*} keyboard нода блока где располагается клавиатура
+	 * @param {*} language язык клавиатуры (RU или ENG)
+	 * @param {*} render начальное заполнение или перерисовка
+	 */
 	changeLanguage(keyboard, language, render) {
 		if (!render) {
 			if (language === 'ENG') {
@@ -342,6 +378,11 @@ class Key {
 		this.node = null;
 		this.renderKey(blockNode, language);
 	}
+	/**
+	 * отрисовка кнопки клавиатуры
+	 * @param {*} blockNode нода блока где располагается клавиша
+	 * @param {*} language язык клавиатуры (RU или ENG)
+	 */
 	renderKey(blockNode, language) {
 		let sign = '';
 		let textAreaHtml = '';
@@ -373,6 +414,11 @@ class RuEnSwitchInfo {
 		this.htmlText = null;
 		this.renderRuEnSwitchInfo(blockNode, language);
 	}
+	/**
+	 * СОтрисовка подсказки внизу страницы
+	 * @param {*} blockNode нода блока где располагается подксказка по переключению
+	 * @param {*} language 
+	 */
 	renderRuEnSwitchInfo(blockNode, language) {
 		let element = document.createElement("div")
 		element.classList.add('ru-en-switch-info');
@@ -380,6 +426,10 @@ class RuEnSwitchInfo {
 		this.htmlText = element;
 		this.changeText(language);
 	}
+	/**
+	 * Смена текста в подсказке внизу страницы
+	 * @param {*} language выбрынный язык (RU или ENG)
+	 */
 	changeText(language) {
 		this.htmlText.innerHTML = '';
 		this.htmlText.innerHTML = `<p>Клавиатура создана в операционной системе Windiws</p>
