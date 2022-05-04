@@ -164,7 +164,7 @@ class Keyboard {
 			let target = e.target;
 			this.highLightButtonOff(target);
 			//управление регистром
-			if (target.dataset.code === 'ShiftRight' || target.dataset.code === 'ShiftLeft' /*|| target.dataset.code === 'CapsLock'*/) {
+			if (target.dataset.code === 'ShiftRight' || target.dataset.code === 'ShiftLeft') {
 				this.renderKeyboard(this.blockNode, null, 'DOWN', this.capsLockOn);
 			}
 		});
@@ -309,7 +309,7 @@ class Keyboard {
 	writeKey(key) {
 		this.textArea.node.focus();
 		let textAreaStart = this.textArea.node.selectionStart;
-		if (key.classList.contains('key')) {
+		if (key.classList.contains('key') && (key.dataset.code != 'undefined')) {
 			if (key.classList.contains('changeableLanguage') || key.classList.contains('changeableShit')) {
 				this.textArea.node.value = this.textArea.node.value.substring(0, textAreaStart) + key.innerText + this.textArea.node.value.substring(textAreaStart);
 				this.textArea.node.selectionStart = this.textArea.node.selectionEnd = textAreaStart + 1;
