@@ -1,4 +1,4 @@
-export const KEYS = [
+const KEYS = [
   {
     name_eng: '`',
     name_ru: 'ё',
@@ -474,3 +474,4 @@ export const KEYS = [
     code: 'ShiftRight',
   },
 ];
+export default KEYS;

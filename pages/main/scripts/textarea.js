@@ -1,4 +1,4 @@
-export class TextArea {
+export default class TextArea {
   constructor(blockNode) {
     this.node = null;
     this.renderTextArea(blockNode);

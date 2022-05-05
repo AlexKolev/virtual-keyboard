@@ -1,12 +1,11 @@
-// import { KEYS } from './keys.js';
-import { Header } from './header.js';
-import { Main } from './main.js';
+import Header from './header.js';
+import Main from './main.js';
+import Keyboard from './keyboard.js';
 
 class Page {
   constructor() {
     this.header = null;
     this.main = null;
-    // this.renderPage();
     this.keyDown = null;
     this.notRender = null;
   }
@@ -16,15 +15,13 @@ class Page {
   */
   renderPage() {
     const body = document.querySelector('body');
-
-    this.header = new Header(body);
+    Header.renderHeader(body);
     this.main = new Main(body);
-    // listener для нажатия кнопоки
     body.addEventListener('keydown', (e) => {
       e.preventDefault();
       const key = document.querySelector(`.key[data-code="${e.code}"]`);
       if (key) {
-        this.main.keyboard.highLightButton(key);
+        Keyboard.highLightButton(key);
         this.main.keyboard.writeKey(key);
         if (e.code === 'ControlLeft') {
           this.keyDown = 'ControlLeft';
@@ -33,8 +30,8 @@ class Page {
           const doc = document.body.main;
           this.main.keyboard.changeLanguage(doc, this.main.keyboard.language, this.notRender);
           this.notRender = 1;
-          this.main.keyboard.highLightButton(document.querySelector(`.key[data-code="${e.code}"]`));
-          this.main.keyboard.highLightButton(document.querySelector(`.key[data-code="${this.keyDown}"]`));
+          Keyboard.highLightButton(document.querySelector(`.key[data-code="${e.code}"]`));
+          Keyboard.highLightButton(document.querySelector(`.key[data-code="${this.keyDown}"]`));
         } else if (key.dataset.code === 'ShiftRight' || key.dataset.code === 'ShiftLeft') {
           // управление регистром
           this.main.keyboard.renderKeyboard(this.main.keyboard.blockNode, null, 'UP', this.main.keyboard.capsLockOn);
@@ -53,7 +50,7 @@ class Page {
     body.addEventListener('keyup', (e) => {
       const key = document.querySelector(`.key[data-code="${e.code}"]`);
       if (key) {
-        this.main.keyboard.highLightButtonOff(key);
+        Keyboard.highLightButtonOff(key);
         if (e.code === 'ControlLeft') {
           this.keyDown = null;
           this.notRender = null;

@@ -1,7 +1,7 @@
-import { KEYS } from './keys.js';
-import { Key } from './key.js';
+import KEYS from './keys.js';
+import Key from './key.js';
 
-export class Keyboard {
+export default class Keyboard {
   constructor(blockNode, textArea) {
     this.language = localStorage.getItem('language') ? localStorage.getItem('language') : 'ENG';
     if (this.language === 'null') {
@@ -23,7 +23,7 @@ export class Keyboard {
     // listener on mousedown
     blockNode.addEventListener('mousedown', (e) => {
       const { target } = e;
-      this.highLightButton(target);
+      Keyboard.highLightButton(target);
       // отрисовка нажатой кнопки в textArea
       this.writeKey(target);
       // управление регистром
@@ -42,7 +42,7 @@ export class Keyboard {
     // выключение эфекта нажатия listener on mouseup
     blockNode.addEventListener('mouseup', (e) => {
       const { target } = e;
-      this.highLightButtonOff(target);
+      Keyboard.highLightButtonOff(target);
       // управление регистром
       if (target.dataset.code === 'ShiftRight' || target.dataset.code === 'ShiftLeft') {
         this.renderKeyboard(this.blockNode, null, 'DOWN', this.capsLockOn);
@@ -51,7 +51,7 @@ export class Keyboard {
     // выключение эфекта нажатия listener on mouseout, если нажали и переместили курср с кнопки
     blockNode.addEventListener('mouseout', (e) => {
       const { target } = e;
-      this.highLightButtonOff(target);
+      Keyboard.highLightButtonOff(target);
     });
   }
 
@@ -159,7 +159,7 @@ export class Keyboard {
    * включение эфекта нажатия
    * @param {*} key нажатая кнопка
    */
-  highLightButton(key) {
+  static highLightButton(key) {
     if (key.classList.contains('key')) {
       if (key.dataset.code === 'CapsLock') {
         key.classList.toggle('key-pres');
@@ -173,7 +173,7 @@ export class Keyboard {
    * выключение эфекта нажатия
    * @param {*} key отжататя кнопка
    */
-  highLightButtonOff(key) {
+  static highLightButtonOff(key) {
     if (key.classList.contains('key')) {
       if (key.dataset.code !== 'CapsLock') {
         key.classList.remove('key-pres');

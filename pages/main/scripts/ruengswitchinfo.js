@@ -1,4 +1,4 @@
-export class RuEnSwitchInfo {
+export default class RuEnSwitchInfo {
   constructor(blockNode, language) {
     this.htmlText = null;
     this.renderRuEnSwitchInfo(blockNode, language);

@@ -1,8 +1,8 @@
-import { TextArea } from './textarea.js';
-import { Keyboard } from './keyboard.js';
-import { RuEnSwitchInfo } from './ruengswitchinfo.js';
+import TextArea from './textarea.js';
+import Keyboard from './keyboard.js';
+import RuEnSwitchInfo from './ruengswitchinfo.js';
 
-export class Main {
+export default class Main {
   constructor(blockNode) {
     this.textArea = null;
     this.keyboard = null;

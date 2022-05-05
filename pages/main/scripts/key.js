@@ -1,4 +1,4 @@
-export class Key {
+export default class Key {
   constructor(key, blockNode, language) {
     this.name = key.name;
     this.name_eng = key.name_eng;
