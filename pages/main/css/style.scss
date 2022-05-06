@@ -1,0 +1,89 @@
+.conteiner {
+	max-width: 1280px;
+	margin: 0 auto;
+}
+
+.Head-page {
+	color: rgb(36, 42, 217);
+	font-size: 40px;
+	text-align: center;
+	padding-top: 20px;
+}
+
+.display-area {
+	display: block;
+	margin: 20px auto;
+	width: 740px;
+	height: 200px;
+	resize: none;
+}
+
+.keyboard {
+	width: 800px;
+	margin: 20px auto;
+	background-color: aqua;
+	display: flex;
+	justify-content: space-between;
+	padding: 15px 15px;
+	flex-wrap: wrap;
+	align-content: flex-start;
+	user-select: none;
+}
+
+.key {
+	height: 45px;
+	color: darkgreen;
+	background-color: yellowgreen;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	border-radius: 5px;
+	border: 2px solid black;
+	font-size: 20px;
+	flex: 0 0 auto;
+	margin: 2px;
+	transition: border-radius 0.3s, background-color 0.3s, color 0.3s;
+	cursor: pointer;
+
+	&:hover {
+		background-color: rgb(215, 228, 188);
+	}
+}
+
+.key-standart {
+	width: 45px;
+}
+
+.key-wide1and5 {
+	width: 68px;
+}
+
+.key-wide2 {
+	width: 100px;
+}
+
+.key-wide5 {
+	width: 250px;
+}
+
+.key-narrow1and5 {
+	width: 25px;
+}
+
+.ru-en-switch-info {
+	font-size: 20px;
+	text-align: center;
+	padding-top: 20px;
+}
+
+.key-pres {
+	background-color: red;
+	border-radius: 20px;
+	color: white;
+
+	&:hover {
+		background-color: red;
+	}
+
+}
